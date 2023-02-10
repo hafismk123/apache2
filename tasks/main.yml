@@ -1,0 +1,15 @@
+---
+# tasks file for apache2
+- name: Configuring apache2
+  ansible.builtin.template:
+   src: apache.conf.j2
+   dest: "{{ conf_dest }}/wordpress.conf"
+  # notify: Restart apache2
+
+- name: Enable the site & Rewriting
+  ansible.builtin.shell:
+    cmd: a2ensite wordpress && a2enmod rewrite && a2dissite 000-default
+  changed_when: true
+  notify: Restart apache2
+
+
